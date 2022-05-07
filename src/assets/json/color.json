@@ -1,0 +1,38 @@
+[
+    {
+        "id":1,
+        "value": "AZURE",
+        "text": "AZURE"
+    },
+    {
+        "id":2,
+        "value": "BORDEAUX",
+        "text": "BORDEAUX"
+    },
+    {
+        "id":3,
+        "value": "MANGO",
+        "text": "MANGO"
+    },
+    {
+        "id":4,
+        "value": "GUM",
+        "text": "GUM"
+    },
+    {
+        "id":5,
+        "value": "ACID GREEN",
+        "text": "ACID GREEN"
+    },
+    {
+        "id":6,
+        "value": "ALMOND/AZURE",
+        "text": "ALMOND/AZURE" 
+    },
+    {
+        "id":7,
+        "value": "BLACK",
+        "text": "BLACK"
+    }
+    
+]

@@ -1,0 +1,27 @@
+[
+    {
+        "id":1,
+        "value": "x-small",
+        "text": "x-small"
+    },
+    {
+        "id":2,
+        "value": "small",
+        "text": "small"
+    },
+    {
+        "id":3,
+        "value": "medium",
+        "text": "medium"
+    },
+    {
+        "id":4,
+        "value": "large",
+        "text": "large"
+    },
+    {
+        "id":5,
+        "value": "x-large",
+        "text": "x-large"
+    }
+]
