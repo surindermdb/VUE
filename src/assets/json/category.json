@@ -1,17 +1,38 @@
 [
     {
         "id":1,
-        "value": "Value1",
-        "text": "Value1Text"
+        "value": "BUCKET BAGS",
+        "text": "BUCKET BAGS"
     },
     {
         "id":2,
-        "value": "Value2",
-        "text": "Value2Text"
+        "value": "CROSSBODY BAGS",
+        "text": "CROSSBODY BAGS"
     },
     {
         "id":3,
-        "value": "Value3",
-        "text": "Value3Text"
+        "value": "METALLIC",
+        "text": "METALLIC"
+    },
+    {
+        "id":4,
+        "value": "TOP HANDLES",
+        "text": "TOP HANDLES"
+    },
+    {
+        "id":5,
+        "value": "PEBBLE",
+        "text": "PEBBLE"
+    },
+    {
+        "id":6,
+        "value": "SHOULDER BAGS",
+        "text": "SHOULDER BAGS"
+    },
+    {
+        "id":6,
+        "value": "TOTES",
+        "text": "TOTES BAGS"
     }
+
 ]
