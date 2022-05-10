@@ -270,6 +270,12 @@ select {
   grid-template-columns: repeat(4, 1fr);
   column-gap: 6px;
 }
+.grid_inner_max{
+    grid-template-columns: repeat(6, 1fr) !important;
+}
+.grid_inner_min{
+    grid-template-columns: repeat(2, 1fr) !important;
+}
 .grid_inner .card {
   padding: 0 0 57px 0;
   border: none;
@@ -457,7 +463,7 @@ select {
                 </ul>
             </div>
             <button class="filter_cta">SORT</button>
-        </div>
+            </div>
             <div class="row_inner">
                 <div class="filters">
                     <div class="filter">
@@ -584,18 +590,18 @@ select {
                             <button>-</button>
                             <button>+</button>
                         </div>
-                        <input type="range" value="40" min="0" max="100" step="1" class="progress">
+                        <input id="ageInputId" type="range" value="4" min="2" max="6" step="2" class="progress" @input="sliderChange($event)">
                     </div>
 
-                    <div class="sortFilter">
+                    <div class="sortFilter" @click="showSortDropdown">
                         <button class="sortBtn" >
                             Sort By
                             <svg  width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-35171425="" d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"></path></svg>
                         </button>
-                        <div class="multiselect" v-bind:class="{ active: showMaterial }"> 
+                        <div class="multiselect" v-bind:class="{ active: showSort }"> 
                             <ul>
-                                <li v-for="(option) in ddTestMaterial" :key="option.id">
-                                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckMaterial($event)">
+                                <li v-for="(option) in ddTestSort" :key="option.id">
+                                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckSort($event)">
                                     <label class="optionLabel" :for="option.id">{{ option.text }}</label>
                                 </li>
 
@@ -614,7 +620,7 @@ select {
     </div>
     
     <div class="product_grid">
-        <div class="grid_inner">
+        <div class="grid_inner" v-bind:class="{ grid_inner_max: gridMax, grid_inner_min: gridMin }">
              <div class="centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
                 <div class="card" v-on:click="setSelectedCustomer(product.title)" >
                     <img :src="product.images[0].src" />
@@ -703,18 +709,63 @@ export default {
       showColor: false,
       showSize: false,
       showMaterial: false,
+      showSort:false,
+      gridMax:false,
+      gridMin:false,
       // selectedCustomer: '',
       selected: [],
       selectedColor: [],
       selectedSize: [],
       selectedMaterial: [],
+      selectedSort: [],
       ddTestCategory: this.getCategoryDropDownList(),
       ddTestColor: this.getColorDropDownList(),
       ddTestSize: this.getSizeDropDownList(),
       ddTestMaterial: this.getMaterialDropDownList(),
+      ddTestSort:[
+          {
+              id:"sort1",
+              value:"Recommended",
+              text:"Recommended"
+          },
+          {
+              id:"sort2",
+              value:"LowToHigh",
+              text:"Price: Low to High"
+          },
+          {
+              id:"sort3",
+              value:"HighTOLow",
+              text:"Price: High to Low"
+          },
+          {
+              id:"sort4",
+              value:"Latest",
+              text:"Latest Arrivals"
+          },
+          {
+              id:"sort5",
+              value:"Discount",
+              text:"Percent Discount"
+          }
+      ]
     };
   },
   methods: {
+    sliderChange:function(event){
+        if(event.target.value==2){
+            this.gridMin=true;
+            this.gridMax=false;
+        }
+        else if(event.target.value==6){
+            this.gridMin=false;
+            this.gridMax=true;
+        }
+        else{
+            this.gridMin=false;
+            this.gridMax=false;
+        }
+    },  
     // Fill category dropdown from products data
     getCategoryDropDownList: function() {
       let array = [];
@@ -808,18 +859,42 @@ export default {
     // show category dropdown
     showDropdown() {
       this.show = !this.show;
+      this.showColor = this.showColor?!this.showColor:this.showColor;
+      this.showSize = this.showSize?!this.showSize:this.showSize;
+      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
+      this.showSort = this.showSort?!this.showSort:this.showSort;
     },
     // show color dropdown
     showColorDropdown() {
       this.showColor = !this.showColor;
+      this.show = this.show?!this.show:this.show;
+      this.showSize = this.showSize?!this.showSize:this.showSize;
+      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
+      this.showSort = this.showSort?!this.showSort:this.showSort;
     },
     // show size dropdown
     showSizeDropdown() {
       this.showSize = !this.showSize;
+      this.show = this.show?!this.show:this.show;
+      this.showColor = this.showColor?!this.showColor:this.showColor;
+      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
+      this.showSort = this.showSort?!this.showSort:this.showSort;
     },
     // show material dropdown
     showMaterialDropdown() {
       this.showMaterial = !this.showMaterial;
+      this.show = this.show?!this.show:this.show;
+      this.showColor = this.showColor?!this.showColor:this.showColor;
+      this.showSize = this.showSize?!this.showSize:this.showSize;
+      this.showSort = this.showSort?!this.showSort:this.showSort;
+    },
+    // show material dropdown
+    showSortDropdown() {
+      this.showSort = !this.showSort;
+      this.show = this.show?!this.show:this.show;
+      this.showColor = this.showColor?!this.showColor:this.showColor;
+      this.showSize = this.showSize?!this.showSize:this.showSize;
+      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
     },
     // on selecte Category
     onCheck(event) {
@@ -864,6 +939,17 @@ export default {
         this.selectedMaterial.push(event.target.value);
       }
       this.filterProductByMaterial();
+    },
+
+    onCheckSort(event){
+        if (this.selectedSort.includes(event.target.value)) {
+            this.selectedSort = this.selectedSort.filter(function(geeks) {
+                return geeks != event.target.value;
+            });
+        } else {
+            this.selectedSort.push(event.target.value);
+        }
+        this.filterProductByMaterial();
     },
 
     // filter based on category selection
@@ -1045,6 +1131,7 @@ export default {
       }
       this.page_index = 0;
     },
+
     filterArrayByCategory(array) {
       let category = this.filterByCategory;
       return category.filter((el) => {
