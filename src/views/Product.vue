@@ -93,17 +93,8 @@ ul {
     </div>
     
     <div class="row filter-option" style="margin:auto" >
-        <div class="col-md-5" >
-            
-            <select @change="switchSelectSize($event)" class="mr-3">
-                <option value="">Choose Size</option>
-                <option v-for="option in ddTestSize.options" :key="option.id" :value="option.value">{{option.text}}</option>
-            </select>
-            <select @change="switchSelectMaterial($event)">
-                <option value="">Choose Material</option>
-                <option v-for="option in ddTestMaterial.options" :key="option.id"  :value="option.value">{{option.text}}</option>
-            </select>
-            <div class="col-md-3 mr-3">
+        <div class="col-md-12" >
+            <div class="col-md-3">
                 <div class="dropdown" @click="showDropdown">
                 <div class="overselect"></div>
                     <select class="c-form-input">
@@ -119,7 +110,7 @@ ul {
                     </ul>
                 </div>
             </div>
-            <div class="col-md-3 mr-3">
+            <div class="col-md-3">
                 <div class="dropdown" @click="showColorDropdown">
                 <div class="overselect"></div>
                     <select class="c-form-input">
@@ -135,7 +126,7 @@ ul {
                     </ul>
                 </div>
             </div>
-            <div class="col-md-3 mr-3">
+            <div class="col-md-3">
                 <div class="dropdown" @click="showSizeDropdown">
                 <div class="overselect"></div>
                     <select class="c-form-input">
@@ -146,6 +137,22 @@ ul {
                     <ul>
                         <li v-for="(option, index) in ddTestSize.options" :key="index">
                         <input type="checkbox" :id="index" :value="option.value" @change="onCheckSize($event)">
+                        <label :for="index">{{ option.text }}</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3 ">
+                <div class="dropdown" @click="showMaterialDropdown">
+                <div class="overselect"></div>
+                    <select class="c-form-input">
+                        <option value="">Please Select Material</option>
+                    </select>
+                </div>
+                <div class="multiselect" v-if="showMaterial">
+                    <ul>
+                        <li v-for="(option, index) in ddTestMaterial.options" :key="index">
+                        <input type="checkbox" :id="index" :value="option.value" @change="onCheckMaterial($event)">
                         <label :for="index">{{ option.text }}</label>
                         </li>
                     </ul>
@@ -183,17 +190,7 @@ ul {
 
 <script>
 
-// <select @change="switchSelectCategory($event)" class="mr-3">
-            //     <option value="">Choose category</option>
-            //     <option v-for="option in ddTestCategory.options" :key="option.id" :value="option.value">{{option.text}}</option>
-            // </select>
-            // <select @change="switchSelectColor($event)" class="mr-3">
-            //     <option value="">Choose Color</option>
-            //     <option v-for="option in ddTestColor.options" :key="option.id" :value="option.value">{{option.text}}</option>
-            // </select>
-
 // @ is an alias to /src
-
 // import axios from 'axios'
 import colors from '@/assets/json/color.json'
 import sizes from '@/assets/json/size.json'
@@ -229,14 +226,16 @@ export default {
             filterByCategory:[],
             filterByColor:[],
             filterBySize:[],
+            filterByMaterial:[],
             show: false,
             showColor: false,
             showSize:false,
+            showMaterial:false,
             selectedCustomer: '',
             selected: [],
             selectedColor:[],
             selectedSize:[],
-            selectedMaterial:'',
+            selectedMaterial:[],
             ddTestCategory: {
                     originalValue: [],
                     ddTestSelectedOption: "Value1",
@@ -277,20 +276,12 @@ export default {
         }
     },
     methods: {
-        switchSelectSize(event){
-            this.selectedSize = event.target.value;
-            this.filterProduct();
-        },
-        switchSelectMaterial(event){
-            this.selectedMaterial = event.target.value;
-            this.filterProduct();
-        },
         setSelectedCustomer: function(title) {
             this.selectedCustomer = title;
         },  
-        goToDetailsPage: function(id) {
-            this.$router.push("/customerdetails/"+id);
-        },
+        // goToDetailsPage: function(id) {
+        //     this.$router.push("/customerdetails/"+id);
+        // },
         array_chunk: function(array, size) {
             const chunked_arr = [];
             let index = 0;
@@ -304,15 +295,23 @@ export default {
             this.page_index =index;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         },
+        // show category dropdown
         showDropdown() {
             this.show = !this.show
         },
+        // show color dropdown
         showColorDropdown(){
             this.showColor=!this.showColor;
         },
+        // show size dropdown
         showSizeDropdown(){
             this.showSize=!this.showSize;
         },
+        // show material dropdown
+        showMaterialDropdown(){
+            this.showMaterial=!this.showMaterial;
+        },
+        // on selecte Category
         onCheck(event) {
             if(this.selected.includes(event.target.value)){
                 this.selected=this.selected.filter(function(geeks){
@@ -324,6 +323,7 @@ export default {
             }
             this.filterProduct();
         },
+        // on selecte Color
         onCheckColor(event) {
             if(this.selectedColor.includes(event.target.value)){
                 this.selectedColor = this.selectedColor.filter(function(geeks){
@@ -335,6 +335,7 @@ export default {
             }
             this.filterProductByColor();
         },
+        // on selecte Size
         onCheckSize(event) {
             if(this.selectedSize.includes(event.target.value)){
                 this.selectedSize = this.selectedSize.filter(function(geeks){
@@ -346,6 +347,19 @@ export default {
             }
             this.filterProductBySize();
         },
+        // on selecte Material
+        onCheckMaterial(event) {
+            if(this.selectedMaterial.includes(event.target.value)){
+                this.selectedMaterial = this.selectedMaterial.filter(function(geeks){
+                    return geeks != event.target.value;
+                });
+            }
+            else{
+                this.selectedMaterial.push(event.target.value); 
+            }
+            this.filterProductByMaterial();
+        },
+
         // filter based on category selection
         filterProduct:function(){
             let array=[];
@@ -369,11 +383,28 @@ export default {
                 this.filterByCategory=array;
 
                 if(this.filterByColor.length>0){
-                    array = this.filterByColor.filter(function(obj) { return array.indexOf(obj) == -1; });
+                    var color=this.filterByColor;
+                    array=color.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
                 }
                 if(this.filterBySize.length>0){
                     let size=this.filterBySize;
-                    array = array.filter(function(obj) { return size.indexOf(obj) == -1; });
+                    array=size.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }
+                if(this.filterByMaterial.length>0){
+                    let material=this.filterByMaterial;
+                    array=material.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
                 } 
                 this.customerlist = this.array_chunk(array, 20);
             }
@@ -382,10 +413,16 @@ export default {
                 if(this.selectedColor.length>0){
                     this.filterProductByColor();
                 }
-                // this.filterBySize();
+                else if(this.selectedSize.length>0){
+                    this.filterProductBySize();
+                }
+                else if(this.selectedMaterial.length>0){
+                    this.filterByMaterial();
+                }
             }
             this.page_index=0;
         },
+
         // filter based on color selection
         filterProductByColor(){
             let array=[];
@@ -410,21 +447,46 @@ export default {
 
                 if(this.filterByCategory.length>0){
                     let category=this.filterByCategory;
-                    let array = array.filter(function(obj) { return category.indexOf(obj) == -1; });
+                    array=category.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
                 }
                 if(this.filterBySize.length>0){
                     let size=this.filterBySize;
-                    array = array.filter(function(obj) { return size.indexOf(obj) == -1; });
-                } 
+                    array = size.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }
+                if(this.filterByMaterial.length>0){
+                    let material=this.filterByMaterial;
+                    array = material.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }  
                 this.customerlist = this.array_chunk(array, 20);
             }
             else{
                 this.filterByColor=[];
-                // this.filterProductBySize();
-                // this.filterByCategory();
+                if(this.selected.length>0){
+                    this.filterProduct();
+                }
+                else if(this.selectedSize.length>0){
+                    this.filterProductBySize();
+                }
+                else if(this.selectedMaterial.length>0){
+                    this.filterByMaterial();
+                }
             }
             this.page_index=0;
         },
+
+        // filter based on size selection
         filterProductBySize(){
             let array=[];
             if(this.selectedSize.length>0){
@@ -448,22 +510,104 @@ export default {
 
                 if(this.filterByCategory.length>0){
                     let category=this.filterByCategory;
-                    array = array.filter(function(obj) { return category.indexOf(obj) == -1; });
+                    array=category.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
                 }
                 if(this.filterByColor.length>0){
                     let color=this.filterByColor;
-                    array = color.filter(function(obj) { return array.indexOf(obj) == -1; });
+                    array=color.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
                 }
+                if(this.filterByMaterial.length>0){
+                    let material=this.filterByMaterial;
+                    array=material.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }  
                 this.customerlist = this.array_chunk(array, 20);
             }
             else{
                 this.filterBySize=[];
-                if(this.selectedColor.length>0){
+                if(this.selected.length>0){
+                    this.filterProduct();
+                }
+                else if(this.selectedColor.length>0){
                     this.filterProductByColor();
                 }
+                else if(this.selectedMaterial.length>0){
+                    this.filterByMaterial();
+                }
+            }
+            this.page_index=0;
+        },
 
-                // this.filterProductByColor();
-                // this.filterByCategory();
+        // filter based on Material selection
+        filterProductByMaterial(){
+            let array=[];
+            if(this.selectedMaterial.length>0){
+                this.selectedMaterial.map(mat=>{
+                    let filter = products.filter(item=>{
+                        return item.variants[0].option3 == mat;
+                    })
+                    if(array.length>0){
+                        array = new Set([
+                            ...array,
+                            ...filter
+                        ]);
+                        array=[...array];
+                    }
+                    else{
+                        array=filter;
+                    }   
+                });
+
+                this.filterByMaterial=array;
+
+                if(this.filterByCategory.length>0){
+                    let category=this.filterByCategory;
+                    array=category.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }
+                if(this.filterByColor.length>0){
+                    let color=this.filterByColor;
+                    array=color.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }
+                if(this.filterBySize.length>0){
+                    let size=this.filterBySize;
+                    array=size.filter( el => {
+                        return array.some( f => {
+                            return f.id === el.id;
+                        });
+                    });
+                }
+                this.customerlist = this.array_chunk(array, 20);
+            }
+            else{
+                this.filterByMaterial=[];
+                if(this.selected.length>0){
+                    this.filterProduct();
+                }
+                else if(this.selectedColor.length>0){
+                    this.filterProductByColor();
+                }
+                else if(this.selectedSize.length>0){
+                    this.filterProductBySize();
+                }
             }
             this.page_index=0;
         }
