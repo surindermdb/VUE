@@ -8,11 +8,11 @@ const router =  new Router({
   routes: [
     {
       path: '/',
-      redirect: '/Product'
+      redirect: '/collection'
     },
     {
-      path: '/Product',
-      name: 'product',
+      path: '/collection',
+      name: 'collection',
       component: Product
     }
   ]

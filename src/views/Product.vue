@@ -103,9 +103,9 @@ ul {
                 </div>
                 <div class="multiselect" v-if="show">
                     <ul>
-                        <li v-for="(option, index) in ddTestCategory.options" :key="index">
-                        <input type="checkbox" :id="index" :value="option.value" @change="onCheck($event)">
-                        <label :for="index">{{ option.text }}</label>
+                        <li v-for="(option) in ddTestCategory" :key="option.id">
+                        <input type="checkbox" :id="option.id" :value="option.value" @change="onCheck($event)">
+                        <label :for="option.id">{{ option.text }}</label>
                         </li>
                     </ul>
                 </div>
@@ -119,9 +119,9 @@ ul {
                 </div>
                 <div class="multiselect" v-if="showColor">
                     <ul>
-                        <li v-for="(option, index) in ddTestColor.options" :key="index">
-                        <input type="checkbox" :id="index" :value="option.value" @change="onCheckColor($event)">
-                        <label :for="index">{{ option.text }}</label>
+                        <li v-for="(option) in ddTestColor" :key="option.id">
+                        <input type="checkbox" :id="option.id" :value="option.value" @change="onCheckColor($event)">
+                        <label :for="option.id">{{ option.text }}</label>
                         </li>
                     </ul>
                 </div>
@@ -135,9 +135,9 @@ ul {
                 </div>
                 <div class="multiselect" v-if="showSize">
                     <ul>
-                        <li v-for="(option, index) in ddTestSize.options" :key="index">
-                        <input type="checkbox" :id="index" :value="option.value" @change="onCheckSize($event)">
-                        <label :for="index">{{ option.text }}</label>
+                        <li v-for="(option) in ddTestSize" :key="option.id">
+                        <input type="checkbox" :id="option.id" :value="option.value" @change="onCheckSize($event)">
+                        <label :for="option.id">{{ option.text }}</label>
                         </li>
                     </ul>
                 </div>
@@ -151,9 +151,9 @@ ul {
                 </div>
                 <div class="multiselect" v-if="showMaterial">
                     <ul>
-                        <li v-for="(option, index) in ddTestMaterial.options" :key="index">
-                        <input type="checkbox" :id="index" :value="option.value" @change="onCheckMaterial($event)">
-                        <label :for="index">{{ option.text }}</label>
+                        <li v-for="(option) in ddTestMaterial" :key="option.id">
+                        <input type="checkbox" :id="option.id" :value="option.value" @change="onCheckMaterial($event)">
+                        <label :for="option.id">{{ option.text }}</label>
                         </li>
                     </ul>
                 </div>
@@ -163,9 +163,8 @@ ul {
 
     <div class="container-fluid"> 
         <div class="row  centeralign" style="margin:auto">
-            <div class="col-md-3 card centeralign addmargin" style="width: 18rem; margin:auto" v-for="product in customerlist[page_index]" :key="product.id">
-                <div class="card-body" v-on:click="setSelectedCustomer(product.title)" >
-                    
+            <div class="col-md-3 card centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
+                <div class="card-body">
                     <img :src="product.images[0].src" />
                     <h5 class="card-title">{{product.title}}</h5>
                     <h5 class="card-title">${{Math.floor(product.variants[0].price)}}</h5>
@@ -189,13 +188,9 @@ ul {
 </template>
 
 <script>
-
+// <vue-hover-slider :slides="slides" />
 // @ is an alias to /src
 // import axios from 'axios'
-import colors from '@/assets/json/color.json'
-import sizes from '@/assets/json/size.json'
-import materials from '@/assets/json/material.json'
-import categorys from '@/assets/json/category.json'
 import products from '@/assets/json/ProductsData.json'
 
 export default {
@@ -231,54 +226,93 @@ export default {
             showColor: false,
             showSize:false,
             showMaterial:false,
-            selectedCustomer: '',
+            // selectedCustomer: '',
             selected: [],
             selectedColor:[],
             selectedSize:[],
             selectedMaterial:[],
-            ddTestCategory: {
-                    originalValue: [],
-                    ddTestSelectedOption: "Value1",
-                    disabled: false,
-                    readonly: false,
-                    visible: true,
-                    color: "",
-                    options: categorys
-            },
-            ddTestColor: {
-                    originalValue: [],
-                    ddTestSelectedOption: "AZURE",
-                    disabled: false,
-                    readonly: false,
-                    visible: true,
-                    color: "",
-                    options: colors
-            },
-            ddTestSize: {
-                    originalValue: [],
-                    ddTestSelectedOption: "x-small",
-                    disabled: false,
-                    readonly: false,
-                    visible: true,
-                    color: "",
-                    options: sizes
-            },
-            ddTestMaterial: {
-                    originalValue: [],
-                    ddTestSelectedOption: "NAPPA LEATHER",
-                    disabled: false,
-                    readonly: false,
-                    visible: true,
-                    color: "",
-                    options: materials
-            },
-            options: categorys
+            ddTestCategory: this.getCategoryDropDownList(),
+            ddTestColor: this.getColorDropDownList(),
+            ddTestSize: this.getSizeDropDownList(),
+            ddTestMaterial: this.getMaterialDropDownList()
         }
     },
     methods: {
-        setSelectedCustomer: function(title) {
-            this.selectedCustomer = title;
-        },  
+        // Fill category dropdown from products data
+        getCategoryDropDownList:function(){
+            let array=[];
+            products.map(item=>{
+                item.tags.map((ca)=>{
+                    array.push(ca);
+                })
+            });
+            let data=[ ...new Set(array) ];
+            array=[];
+            data.map((item,index)=>{
+                let obj={"id":item+index, "value":item, "text":item};
+                array.push(obj);
+            })
+            return array;
+        },
+        // Fill color dropdown from products data
+        getColorDropDownList:function(){
+            let array=[];
+            products.map(item=>{
+                item.variants.map((col)=>{
+                    array.push(col.option1);
+                })
+            });
+            let data=[ ...new Set(array) ];
+            array=[];
+            data.map((item,index)=>{
+                let obj={"id":item+index, "value":item, "text":item};
+                if(item!=null){
+                    array.push(obj);
+                }
+                
+            })
+            return array;
+        },
+        // Fill size dropdown from products data
+        getSizeDropDownList:function(){
+            let array=[];
+            products.map(item=>{
+                item.variants.map((col)=>{
+                    array.push(col.option2);
+                })
+            });
+            let data=[ ...new Set(array) ];
+            array=[];
+            data.map((item,index)=>{
+                let obj={"id":item+index, "value":item, "text":item};
+                if(item!=null){
+                    array.push(obj);
+                }
+            })
+            return array;
+        },
+        // Fill material dropdown from products data
+        getMaterialDropDownList:function(){
+            let array=[];
+            products.map(item=>{
+                item.variants.map((col)=>{
+                    array.push(col.option3);
+                })
+            });
+            let data=[ ...new Set(array) ];
+            array=[];
+            data.map((item,index)=>{
+                let obj={"id":item+index, "value":item, "text":item};
+                if(item!=null){
+                    array.push(obj);
+                }
+            })
+            return array;
+        },
+        // v-on:click="setSelectedCustomer(product.title)"
+        // setSelectedCustomer: function(title) {
+        //     this.selectedCustomer = title;
+        // },  
         // goToDetailsPage: function(id) {
         //     this.$router.push("/customerdetails/"+id);
         // },
@@ -364,6 +398,7 @@ export default {
         filterProduct:function(){
             let array=[];
             if(this.selected.length>0){
+                // Get Category product after multi select option in dropdown
                 this.selected.map(cate=>{
                     let filter = products.filter(item=>{
                         return item.tags.includes(cate)
@@ -381,30 +416,16 @@ export default {
                 });
 
                 this.filterByCategory=array;
-
+                
+                //array of color Filter with other selected option
                 if(this.filterByColor.length>0){
-                    var color=this.filterByColor;
-                    array=color.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByColor(array);
                 }
                 if(this.filterBySize.length>0){
-                    let size=this.filterBySize;
-                    array=size.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayBySize(array);
                 }
                 if(this.filterByMaterial.length>0){
-                    let material=this.filterByMaterial;
-                    array=material.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByMaterial(array);
                 } 
                 this.customerlist = this.array_chunk(array, 20);
             }
@@ -419,6 +440,9 @@ export default {
                 else if(this.selectedMaterial.length>0){
                     this.filterByMaterial();
                 }
+                else{
+                    this.customerlist = this.array_chunk(products, 20);
+                }
             }
             this.page_index=0;
         },
@@ -427,6 +451,7 @@ export default {
         filterProductByColor(){
             let array=[];
             if(this.selectedColor.length>0){
+                // Get Color product after multi select option in dropdown
                 this.selectedColor.map(col=>{
                     let filter = products.filter(item=>{
                         return item.variants[0].option1 == col;
@@ -445,29 +470,15 @@ export default {
 
                 this.filterByColor=array;
 
+                //array of color Filter with other selected option
                 if(this.filterByCategory.length>0){
-                    let category=this.filterByCategory;
-                    array=category.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByCategory(array);
                 }
                 if(this.filterBySize.length>0){
-                    let size=this.filterBySize;
-                    array = size.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayBySize(array);
                 }
                 if(this.filterByMaterial.length>0){
-                    let material=this.filterByMaterial;
-                    array = material.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array=this.filterArrayByMaterial(array);
                 }  
                 this.customerlist = this.array_chunk(array, 20);
             }
@@ -482,6 +493,9 @@ export default {
                 else if(this.selectedMaterial.length>0){
                     this.filterByMaterial();
                 }
+                else{
+                    this.customerlist = this.array_chunk(products, 20);
+                }
             }
             this.page_index=0;
         },
@@ -490,6 +504,7 @@ export default {
         filterProductBySize(){
             let array=[];
             if(this.selectedSize.length>0){
+                // Get Size product after multi select option in dropdown
                 this.selectedSize.map(siz=>{
                     let filter = products.filter(item=>{
                         return item.variants[0].option2 == siz.toUpperCase();
@@ -508,29 +523,15 @@ export default {
 
                 this.filterBySize=array;
 
+                //array of size Filter with other selected option
                 if(this.filterByCategory.length>0){
-                    let category=this.filterByCategory;
-                    array=category.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByCategory(array);
                 }
                 if(this.filterByColor.length>0){
-                    let color=this.filterByColor;
-                    array=color.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByColor(array);
                 }
                 if(this.filterByMaterial.length>0){
-                    let material=this.filterByMaterial;
-                    array=material.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array=this.filterArrayByMaterial(array);
                 }  
                 this.customerlist = this.array_chunk(array, 20);
             }
@@ -545,6 +546,9 @@ export default {
                 else if(this.selectedMaterial.length>0){
                     this.filterByMaterial();
                 }
+                else{
+                    this.customerlist = this.array_chunk(products, 20);
+                }
             }
             this.page_index=0;
         },
@@ -553,6 +557,8 @@ export default {
         filterProductByMaterial(){
             let array=[];
             if(this.selectedMaterial.length>0){
+
+                // Get Material product after multi select 
                 this.selectedMaterial.map(mat=>{
                     let filter = products.filter(item=>{
                         return item.variants[0].option3 == mat;
@@ -571,29 +577,16 @@ export default {
 
                 this.filterByMaterial=array;
 
+
+                //array of material Filter with other selected option  
                 if(this.filterByCategory.length>0){
-                    let category=this.filterByCategory;
-                    array=category.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByCategory(array);
                 }
                 if(this.filterByColor.length>0){
-                    let color=this.filterByColor;
-                    array=color.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayByColor(array);
                 }
                 if(this.filterBySize.length>0){
-                    let size=this.filterBySize;
-                    array=size.filter( el => {
-                        return array.some( f => {
-                            return f.id === el.id;
-                        });
-                    });
+                    array = this.filterArrayBySize(array);
                 }
                 this.customerlist = this.array_chunk(array, 20);
             }
@@ -608,8 +601,43 @@ export default {
                 else if(this.selectedSize.length>0){
                     this.filterProductBySize();
                 }
+                else{
+                    this.customerlist = this.array_chunk(products, 20);
+                }
             }
             this.page_index=0;
+        },
+        filterArrayByCategory(array){
+            let category = this.filterByCategory;
+           return category.filter( el => {
+                return array.some( f => {
+                    return f.id === el.id;
+                });
+            });
+        },
+        filterArrayByColor(array){
+            let color = this.filterByColor;
+           return color.filter( el => {
+                return array.some( f => {
+                    return f.id === el.id;
+                });
+            });
+        },
+        filterArrayBySize(array){
+            let size = this.filterBySize;
+           return size.filter( el => {
+                return array.some( f => {
+                    return f.id === el.id;
+                });
+            });
+        },
+        filterArrayByMaterial(array){
+            let material = this.filterByMaterial;
+           return material.filter( el => {
+                return array.some( f => {
+                    return f.id === el.id;
+                });
+            });
         }
     }
 }
