@@ -10,7 +10,7 @@
 }
 
 img{
-    width:200px;
+    width:348px;
 }
 
 .active {
@@ -32,6 +32,7 @@ ul {
 }
 .card-title{
     font-size:12px;
+    text-align: left;
 }
 
 .filter-option{
@@ -378,8 +379,10 @@ export default {
             }
             else{
                 this.filterByCategory=[];
-                this.filterProductByColor();
-                this.filterBySize();
+                if(this.selectedColor.length>0){
+                    this.filterProductByColor();
+                }
+                // this.filterBySize();
             }
             this.page_index=0;
         },
@@ -417,8 +420,8 @@ export default {
             }
             else{
                 this.filterByColor=[];
-                this.filterProductBySize();
-                this.filterByCategory();
+                // this.filterProductBySize();
+                // this.filterByCategory();
             }
             this.page_index=0;
         },
@@ -455,8 +458,12 @@ export default {
             }
             else{
                 this.filterBySize=[];
-                this.filterProductByColor();
-                this.filterByCategory();
+                if(this.selectedColor.length>0){
+                    this.filterProductByColor();
+                }
+
+                // this.filterProductByColor();
+                // this.filterByCategory();
             }
             this.page_index=0;
         }
