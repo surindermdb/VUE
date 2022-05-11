@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Product from './views/Product'
+// import Product from './views/Product'
 
 Vue.use(Router)
+function lazyLoad(view){
+  return() => import(`@/views/${view}.vue`)
+}
 
 const router =  new Router({
   routes: [
@@ -13,7 +16,7 @@ const router =  new Router({
     {
       path: '/collection',
       name: 'collection',
-      component: Product
+      component: lazyLoad('Product')
     }
   ]
 })

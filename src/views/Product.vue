@@ -1,663 +1,245 @@
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  margin: 0px !important;
-}
-.addmargin {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.vue-logo-back {
-  background-color: black;
-}
-img {
-  max-width: 100%;
-}
-.pt-6 {
-  padding-top: 1.5rem;
-}
-.flex {
-  display: flex;
-}
-button {
-  cursor: pointer;
-  background-color: transparent;
-  outline: none;
-  border: none;
-}
-button:focus {
-  outline: none;
-}
-
-ul {
-  list-style: none;
-  width: 100%;
-  text-align: center;
-  justify-content: center;
-}
-.card-title {
-  font-size: 14px;
-  text-align: left;
-}
-.card .card-title {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: #000000;
-  margin-top: 6px;
-}
-.card-title.bold {
-  font-weight: 700;
-}
-.filter-option {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  position: relative;
-  z-index: 9;
-}
-
-.col {
-  flex: 0 0 50%;
-  max-width: 50%;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-label {
-  margin: 0;
-}
-
-/*****
-- MultiSelect 
-*****/
-
-.dropdown {
-  position: relative;
-  cursor: pointer;
-}
-
-.multiselect {
-  position: relative;
-}
-
-.multiselect ul {
-  background-color: #fff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-top: 0;
-  border-radius: 0 0 3px 3px;
-  left: 0px;
-  padding: 20px;
-  position: absolute;
-  top: 30px;
-  width: 100%;
-  list-style: none;
-  max-height: 250px;
-  overflow: auto;
-  min-width: 260px;
-  margin: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s;
-}
-.multiselect.active ul {
-  top: 10px;
-  opacity: 1;
-  visibility: visible;
-}
-.multiselect ul::-webkit-scrollbar {
-  display: none;
-}
-/* .sort_by_inner{
-    position: relative;
-    overflow: hidden;
-} */
-.sort_by_inner .multiselect ul {
-  left: -204px;
-}
-/* .multiselect.active ul{
-
-} */
-
-.overselect {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-}
-.c-form-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #000000;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.02em;
-  padding-right: 12px;
-}
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: "";
-}
-.multiselect > ul > li {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.multiselect > ul > li:not(:last-child) {
-  margin-bottom: 19px;
-}
-.multiselectOption {
-  width: 14px;
-  height: 14px;
-  display: none;
-}
-
-.optionLabel {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: 0.02em;
-  color: #000000;
-  position: relative;
-  padding-left: 19px;
-  cursor: pointer;
-}
-.optionLabel::after {
-  position: absolute;
-  content: "";
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  width: 14px;
-  height: 14px;
-  background: #fff;
-  border: 1px solid #000;
-}
-
-.multiselectOption:checked + label::after {
-  background: #000;
-}
-.btn_wrapper,
-.dropdown_head
-{
-  display: flex;
-  align-items: center;
-  gap: 1px;
-  width: 100%;
-}
-.filterBtn {
-  background: #ffffff;
-  border: 1px solid #000000;
-  padding: 4px 15px;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  width: 100%;
-  cursor: pointer;
-}
-.filterBtn.modifier {
-  background: #000;
-  color: #fff;
-}
-.clearFilter {
-  background: #000000;
-  padding: 6px;
-  max-width: 94px;
-  width: 100%;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.02em;
-  justify-content: center;
-  color: #ffffff;
-  gap: 4px;
-  cursor: pointer;
-}
-.filter_row {
-  padding: 0 15px;
-  margin: 55px 0 12px;
-  position: sticky;
-  top: 0;
-  z-index: 9;
-}
-.filters,
-.row_inner {
-  display: flex;
-  align-items: center;
-  gap: 45px;
-}
-.row_inner {
-  gap: 15px;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffff;
-  padding: 10px 0;
-}
-
-.sortBtn {
-  background: transparent;
-  padding: 0;
-  color: #000;
-  border: none;
-  outline: none;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  letter-spacing: 0.02em;
-}
-.product_grid {
-  padding: 0 15px;
-}
-.grid_inner {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: 6px;
-}
-.grid_inner_max{
-    grid-template-columns: repeat(6, 1fr) !important;
-}
-.grid_inner_min{
-    grid-template-columns: repeat(2, 1fr) !important;
-}
-.grid_inner .card {
-  padding: 0 0 57px 0;
-  border: none;
-}
-.card > img {
-  width: 100%;
-  height: 100%;
-}
-.responsiveFilter {
-  display: none;
-}
-.filter_cta {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  background: #e9e7e3;
-  border: 1px solid #000000;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  letter-spacing: 0.02em;
-  color: #000000;
-  width: 100%;
-  text-align: center;
-  padding: 14px;
-  text-transform: uppercase;
-}
-.filderDropdown {
-  position: fixed;
-  top:0;
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  background-color: #e9e7e3;
-  z-index: 99;
-}
-.filderDropdown li {
-  padding: 0 11px;
-}
-.filterCta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 20px 13px;
-  border-bottom: 1px solid #757575;
-}
-.filterCta:not(:first-child){
-    padding-top: 13px;
-}
-.close_icon{
-    text-align: left;
-}
-.clear-filter{
-    background: #000000;
-    border: 1px solid #000000;
-    color: #fff;
-}
-.filter_cta.filter{
-    background: transparent;
-    border: none;
-}
-.dropdown_head{
-    margin-bottom: 45px;
-}
-.sort_by_inner {
-    display: flex;
-    align-items: center;
-    gap: clamp(20px,11vw,150px);
-}
-.progress {
-  background: #252525;
-  border-radius: 8px;
-  height: 1px;
-  width: 134px;
-  outline: none;
-  transition: background 450ms ease-in;
-  -webkit-appearance: none;
-}
-
-.progress::-webkit-slider-thumb {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  -webkit-appearance: none;
-  cursor: ew-resize;
-  background: #252525;
-}
-.add_remove{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.add_remove button {
-    line-height: 0;
-}
-/* RESPONSIVE BREAKPOINTS START */
-@media (max-width: 1024px) {
-  .grid_inner {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (max-width: 767px) {
-  .grid_inner {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .card-title {
-    font-size: 12px;
-    margin: 10x 0 0;
-  }
-  .product_grid,
-  .filter_row {
-    padding: 0 2px;
-  }
-  .responsiveFilter {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-  }
-  .filters {
-    flex-direction: column;
-  }
-  .row_inner {
-    display: none;
-  }
-}
-/* RESPONSIVE BREAKPOINTS END */
-</style>
 
 <template>
 
-<div class="home">
+  <div class="home">
     <div class="vue-logo-back">
-        <img src="../assets/logo.png" width="100px" height="100px">
+      <img src="../assets/logo.png" width="100px" height="100px">
     </div>
 
     <div class="filter_row">
-        <div class="responsiveFilter">
-            <button class="filter_cta">filter</button>
-            <div class="filderDropdown">
-                <div class="close_icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.8861 11.8864L35.6587 35.6589" stroke="#656565" stroke-width="1.5"/>
-                        <path d="M11.8861 35.6586L35.6587 11.886" stroke="#656565" stroke-width="1.5"/>
-                    </svg>
-                </div>
-                <div class="dropdown_head">
-                    <button class="filter_cta filter">FILTER</button>
-                    <button class="filter_cta clear-filter">CLEAR FILTERS
-                        <svg data-v-35171425="" width="10" height="10" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-35171425="" d="M0.5 1L5 5.5L2.75 3.25L0.5 1Z" stroke="#fff"></path><path data-v-35171425="" d="M5 1L0.5 5.5L2.75 3.25L5 1Z" stroke="#fff"></path></svg>
-                    </button>
-                </div>
-                
-                <ul>
-                    <li>
-                        <button class="filterCta">Category
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="filterCta">Color
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="filterCta">Size 
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="filterCta">Material
-                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-            <button class="filter_cta">SORT</button>
-            </div>
-            <div class="row_inner">
-                <div class="filters">
-                    <div class="filter">
-                        <div class="dropdown" @click="showDropdown">
-                            <div class="overselect">
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                                <button class="c-form-input">
-                                    <!-- <option value=""></option> -->
-                                    Categories
-                                </button>
-                            </div>
-                            <div class="multiselect" v-bind:class="{ active: show }">
-                            <ul>
-                                <li v-for="(option) in ddTestCategory" :key="option.id">
-                                 <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheck($event)">
-                                <label class="optionLabel" :for="option.id">{{ option.text }}</label>
-                                </li>
-                                <li>
-                                    <div class="btn_wrapper">
-                                        <button class="filterBtn modifier" >Apply</button>
-                                        <button class="filterBtn">Clear</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="filter">
-                        <div class="dropdown" @click="showColorDropdown">
-                            <div class="overselect">
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                                <button class="c-form-input">
-                                    Color
-                                </button>
-                            </div>
-                            <div class="multiselect" v-bind:class="{ active: showColor }">
-                                <ul>
-                                    <li v-for="(option) in ddTestColor" :key="option.id">
-                                        <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckColor($event)">
-                                        <label class="optionLabel" :for="option.id">{{ option.text }}</label>
-                                    </li>
-                                    <li>
-                                        <div class="btn_wrapper">
-                                            <button class="filterBtn modifier" >Apply</button>
-                                            <button class="filterBtn">Clear</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                    </div>
-                    <div class="filter">
-                        <div class="dropdown" @click="showSizeDropdown">
-                            <div class="overselect">
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                                <button class="c-form-input">
-                                    Size
-                                   
-                                </button>
-                            </div>
-                            <div class="multiselect" v-bind:class="{ active: showSize }"> 
-                            <ul>
-                                <li v-for="(option) in ddTestSize" :key="option.id">
-                                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckSize($event)">
-                                    <label class="optionLabel" :for="option.id">{{ option.text }}</label>
-                                </li>
-                                <li>
-                                    <div class="btn_wrapper">
-                                        <button class="filterBtn modifier" >Apply</button>
-                                        <button class="filterBtn">Clear</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="filter filter-modifier">
-                        <div class="dropdown" @click="showMaterialDropdown">
-                            <div class="overselect">
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                                <button class="c-form-input">
-                                    Material
-                                 
-                                </button>
-                        </div>
-                        <div class="multiselect" v-bind:class="{ active: showMaterial }">
-                            <ul>
-                                <li v-for="(option) in ddTestMaterial" :key="option.id">
-                                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckMaterial($event)">
-                                    <label class="optionLabel" :for="option.id">{{ option.text }}</label>
-                                </li>
-                                <li>
-                                    <div class="btn_wrapper">
-                                            <button class="filterBtn modifier" >Apply</button>
-                                            <button class="filterBtn">Clear</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                         <div class="filter">
-                            <button class="clearFilter">Clear filters
-                                <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.5 1L5 5.5L2.75 3.25L0.5 1Z" stroke="white"/>
-                                    <path d="M5 1L0.5 5.5L2.75 3.25L5 1Z" stroke="white"/>
-                                </svg>
-                            </button>
-                        </div>
-                   
-            </div>
-            <div class="sort_by">
-                <div class="sort_by_inner">
-                    <div class="range">
-                        <div class="add_remove">
-                            <button>-</button>
-                            <button>+</button>
-                        </div>
-                        <input id="ageInputId" type="range" value="4" min="2" max="6" step="2" class="progress" @input="sliderChange($event)">
-                    </div>
+      <div class="responsiveFilter">
+        <button class="filter_cta">filter</button>
+        <div class="filderDropdown">
+          <div class="close_icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.8861 11.8864L35.6587 35.6589" stroke="#656565" stroke-width="1.5" />
+              <path d="M11.8861 35.6586L35.6587 11.886" stroke="#656565" stroke-width="1.5" />
+            </svg>
+          </div>
+          <div class="dropdown_head">
+            <button class="filter_cta filter">FILTER</button>
+            <button class="filter_cta clear-filter">CLEAR FILTERS
+              <svg data-v-35171425="" width="10" height="10" viewBox="0 0 6 6" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path data-v-35171425="" d="M0.5 1L5 5.5L2.75 3.25L0.5 1Z" stroke="#fff"></path>
+                <path data-v-35171425="" d="M5 1L0.5 5.5L2.75 3.25L5 1Z" stroke="#fff"></path>
+              </svg>
+            </button>
+          </div>
 
-                    <div class="sortFilter" @click="showSortDropdown">
-                        <button class="sortBtn" >
-                            Sort By
-                            <svg  width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-35171425="" d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round"></path></svg>
-                        </button>
-                        <div class="multiselect" v-bind:class="{ active: showSort }"> 
-                            <ul>
-                                <li v-for="(option) in ddTestSort" :key="option.id">
-                                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value" @change="onCheckSort($event)">
-                                    <label class="optionLabel" :for="option.id">{{ option.text }}</label>
-                                </li>
-
-                                <li>
-                                    <div class="btn_wrapper">
-                                        <button class="filterBtn modifier" >Apply</button>
-                                        <button class="filterBtn">Clear</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <ul>
+            <li>
+              <button class="filterCta">Category
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button class="filterCta">Color
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button class="filterCta">Size
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button class="filterCta">Material
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </li>
+          </ul>
         </div>
+        <button class="filter_cta">SORT</button>
+      </div>
+      <div class="row_inner">
+        <div class="filters">
+          <div class="filter">
+            <div class="dropdown" @click="showDropdown">
+              <div class="overselect">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <button class="c-form-input">
+                <!-- <option value=""></option> -->
+                Categories
+              </button>
+            </div>
+            <div class="multiselect" v-bind:class="{ active: show }">
+              <ul>
+                <li v-for="(option) in ddTestCategory" :key="option.id">
+                  <input class="multiselectOption" type="checkbox" name="category" :id="option.id" :value="option.value"
+                    @change="onCheck($event)">
+                  <label class="optionLabel" :for="option.id">{{ option.text }}</label>
+                </li>
+                <li>
+                  <div class="btn_wrapper">
+                    <button class="filterBtn modifier" @click="filterProduct">Apply</button>
+                    <button class="filterBtn" @click="clearCheckBoxs('category')">Clear</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="filter">
+            <div class="dropdown" @click="showColorDropdown">
+              <div class="overselect">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <button class="c-form-input">
+                Color
+              </button>
+            </div>
+            <div class="multiselect" v-bind:class="{ active: showColor }">
+              <ul>
+                <li v-for="(option) in ddTestColor" :key="option.id">
+                  <input class="multiselectOption" type="checkbox" name="color" :id="option.id" :value="option.value"
+                    @change="onCheckColor($event)">
+                  <label class="optionLabel" :for="option.id">{{ option.text }}</label>
+                </li>
+                <li>
+                  <div class="btn_wrapper">
+                    <button class="filterBtn modifier" @click="filterProductByColor">Apply</button>
+                    <button class="filterBtn" @click="clearCheckBoxs('color')">Clear</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="filter">
+            <div class="dropdown" @click="showSizeDropdown">
+              <div class="overselect">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <button class="c-form-input">
+                Size
+
+              </button>
+            </div>
+            <div class="multiselect" v-bind:class="{ active: showSize }">
+              <ul>
+                <li v-for="(option) in ddTestSize" :key="option.id">
+                  <input class="multiselectOption" type="checkbox" name="size" :id="option.id" :value="option.value"
+                    @change="onCheckSize($event)">
+                  <label class="optionLabel" :for="option.id">{{ option.text }}</label>
+                </li>
+                <li>
+                  <div class="btn_wrapper">
+                    <button class="filterBtn modifier" @click="filterProductBySize">Apply</button>
+                    <button class="filterBtn" @click="clearCheckBoxs('size')">Clear</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="filter filter-modifier">
+            <div class="dropdown" @click="showMaterialDropdown">
+              <div class="overselect">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <button class="c-form-input">
+                Material
+
+              </button>
+            </div>
+            <div class="multiselect" v-bind:class="{ active: showMaterial }">
+              <ul>
+                <li v-for="(option) in ddTestMaterial" :key="option.id">
+                  <input class="multiselectOption" type="checkbox" name="material" :id="option.id" :value="option.value"
+                    @change="onCheckMaterial($event)">
+                  <label class="optionLabel" :for="option.id">{{ option.text }}</label>
+                </li>
+                <li>
+                  <div class="btn_wrapper">
+                    <button class="filterBtn modifier" @click="filterProductByMaterial">Apply</button>
+                    <button class="filterBtn" @click="clearCheckBoxs('material')">Clear</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="filter">
+            <button class="clearFilter" @click="clearAllFilter()">Clear filters
+              <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.5 1L5 5.5L2.75 3.25L0.5 1Z" stroke="white" />
+                <path d="M5 1L0.5 5.5L2.75 3.25L5 1Z" stroke="white" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+        <div class="sort_by">
+          <div class="sort_by_inner">
+            <div class="range">
+              <div class="add_remove">
+                <button>-</button>
+                <button>+</button>
+              </div>
+              <input id="ageInputId" type="range" value="4" min="2" max="6" step="2" class="progress"
+                @input="sliderChange($event)">
+            </div>
+
+            <div class="sortFilter" @click="showSortDropdown">
+              <button class="sortBtn">
+                Sort By
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path data-v-35171425="" d="M1 1L5 5L9 1" stroke="black" stroke-width="0.75" stroke-linejoin="round">
+                  </path>
+                </svg>
+              </button>
+              <div class="multiselect" v-bind:class="{ active: showSort }">
+                <ul>
+                  <li v-for="(option) in ddTestSort" :key="option.id">
+                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value"
+                      @change="onCheckSort($event)">
+                    <label class="optionLabel" :for="option.id">{{ option.text }}</label>
+                  </li>
+
+                  <li>
+                    <div class="btn_wrapper">
+                      <button class="filterBtn modifier">Apply</button>
+                      <button class="filterBtn">Clear</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
+
     <div class="product_grid">
-        <div class="grid_inner" v-bind:class="{ grid_inner_max: gridMax, grid_inner_min: gridMin }">
-             <div class="centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
-                <div class="card" v-on:click="setSelectedCustomer(product.title)" >
-                    <img :src="product.images[0].src" />
-                    <h5 class="card-title">{{product.title}}</h5>
-                    <h5 class="card-title bold">${{Math.floor(product.variants[0].price)}}</h5>
-                </div>
-            </div>
-            <div>
-            </div>
+      <div class="grid_inner" v-bind:class="{ grid_inner_max: gridMax, grid_inner_min: gridMin }">
+        <div class="centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
+          <div class="card" v-on:click="setSelectedCustomer(product.title)">
+            <img :src="product.images[0].src" />
+            <h5 class="card-title">{{ product.title }}</h5>
+            <h5 class="card-title bold">${{ Math.floor(product.variants[0].price) }}</h5>
+          </div>
         </div>
-        <!-- <div class="pagination">
-                <ul>
-                    <li :key="index" :class="{ 'active': index === page_index }" v-for="(page, index) in customerlist">
-                    <a class="p-2 text-sm" href="#" v-on:click.prevent="paginate(index)">
-                        {{index+1}}
-                    </a>
-                    </li>
-                </ul>
-        </div> -->
-    </div>
-
-
-
-    <!-- <div class="container-fluid"> 
-        <div class="row  centeralign" style="margin:auto">
-            <div class="col-md-3 card centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
-                <div class="card-body">
-                    <img :src="product.images[0].src" />
-                    <h5 class="card-title">{{product.title}}</h5>
-                    <h5 class="card-title">${{Math.floor(product.variants[0].price)}}</h5>
-                </div>
-            </div>
+        <div>
         </div>
-        <div class="row centeralign" style="margin:auto">
+      </div>
+      <div class="row centeralign" style="margin:auto">
             <div class="col-md-12">
                 <ul class="flex pt-6" >
-                    <li :key="index" :class="{ 'active': index === page_index }" v-for="(page, index) in customerlist">
+                    <li :key="index" :class="{ 'pageactive': index === page_index }" v-for="(page, index) in customerlist">
                     <a class="p-2 text-sm" href="#" v-on:click.prevent="paginate(index)">
                         {{index+1}}
                     </a>
@@ -665,8 +247,9 @@ select {
                 </ul>
             </div>
         </div>
-    </div> -->
-</div>
+    </div>
+
+  </div>
 
 </template>
 
@@ -709,9 +292,9 @@ export default {
       showColor: false,
       showSize: false,
       showMaterial: false,
-      showSort:false,
-      gridMax:false,
-      gridMin:false,
+      showSort: false,
+      gridMax: false,
+      gridMin: false,
       // selectedCustomer: '',
       selected: [],
       selectedColor: [],
@@ -722,52 +305,82 @@ export default {
       ddTestColor: this.getColorDropDownList(),
       ddTestSize: this.getSizeDropDownList(),
       ddTestMaterial: this.getMaterialDropDownList(),
-      ddTestSort:[
-          {
-              id:"sort1",
-              value:"Recommended",
-              text:"Recommended"
-          },
-          {
-              id:"sort2",
-              value:"LowToHigh",
-              text:"Price: Low to High"
-          },
-          {
-              id:"sort3",
-              value:"HighTOLow",
-              text:"Price: High to Low"
-          },
-          {
-              id:"sort4",
-              value:"Latest",
-              text:"Latest Arrivals"
-          },
-          {
-              id:"sort5",
-              value:"Discount",
-              text:"Percent Discount"
-          }
+      ddTestSort: [
+        {
+          id: "sort1",
+          value: "Recommended",
+          text: "Recommended"
+        },
+        {
+          id: "sort2",
+          value: "LowToHigh",
+          text: "Price: Low to High"
+        },
+        {
+          id: "sort3",
+          value: "HighTOLow",
+          text: "Price: High to Low"
+        },
+        {
+          id: "sort4",
+          value: "Latest",
+          text: "Latest Arrivals"
+        },
+        {
+          id: "sort5",
+          value: "Discount",
+          text: "Percent Discount"
+        }
       ]
     };
   },
   methods: {
-    sliderChange:function(event){
-        if(event.target.value==2){
-            this.gridMin=true;
-            this.gridMax=false;
-        }
-        else if(event.target.value==6){
-            this.gridMin=false;
-            this.gridMax=true;
-        }
-        else{
-            this.gridMin=false;
-            this.gridMax=false;
-        }
-    },  
+    clearAllFilter: function () {
+      let arrayName = ['category', 'color', 'size', 'material'];
+      arrayName.map(item => {
+        this.clearCheckBoxs(item);
+      })
+    },
+    clearCheckBoxs: function (name) {
+      var markedCheckbox = document.getElementsByName(name);
+      for (var checkbox of markedCheckbox) {
+        if (checkbox.checked)
+          checkbox.checked = false;
+      }
+      if (name == 'category') {
+        this.selected = [];
+        this.filterByCategory=[];
+      }
+      else if (name == 'color') {
+        this.selectedColor = [];
+        this.filterByColor=[];
+      }
+      else if (name == 'size') {
+        this.selectedSize = [];
+        this.filterBySize=[];
+      }
+      else if (name == 'material') {
+        this.selectedMaterial = [];
+        this.filterByMaterial=[];
+      }
+      this.clearAllOption();
+    },
+    sliderChange: function (event) {
+      if (event.target.value == 2) {
+        this.gridMin = true;
+        this.gridMax = false;
+      }
+      else if (event.target.value == 6) {
+        this.gridMin = false;
+        this.gridMax = true;
+      }
+      else {
+        this.gridMin = false;
+        this.gridMax = false;
+      }
+    },
     // Fill category dropdown from products data
-    getCategoryDropDownList: function() {
+    getCategoryDropDownList: function () {
       let array = [];
       products.map((item) => {
         item.tags.map((ca) => {
@@ -783,7 +396,7 @@ export default {
       return array;
     },
     // Fill color dropdown from products data
-    getColorDropDownList: function() {
+    getColorDropDownList: function () {
       let array = [];
       products.map((item) => {
         item.variants.map((col) => {
@@ -801,7 +414,7 @@ export default {
       return array;
     },
     // Fill size dropdown from products data
-    getSizeDropDownList: function() {
+    getSizeDropDownList: function () {
       let array = [];
       products.map((item) => {
         item.variants.map((col) => {
@@ -819,7 +432,7 @@ export default {
       return array;
     },
     // Fill material dropdown from products data
-    getMaterialDropDownList: function() {
+    getMaterialDropDownList: function () {
       let array = [];
       products.map((item) => {
         item.variants.map((col) => {
@@ -836,14 +449,7 @@ export default {
       });
       return array;
     },
-    // v-on:click="setSelectedCustomer(product.title)"
-    // setSelectedCustomer: function(title) {
-    //     this.selectedCustomer = title;
-    // },
-    // goToDetailsPage: function(id) {
-    //     this.$router.push("/customerdetails/"+id);
-    // },
-    array_chunk: function(array, size) {
+    array_chunk: function (array, size) {
       const chunked_arr = [];
       let index = 0;
       while (index < array.length) {
@@ -852,108 +458,104 @@ export default {
       }
       return chunked_arr;
     },
-    paginate: function(index) {
+    paginate: function (index) {
       this.page_index = index;
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     // show category dropdown
     showDropdown() {
       this.show = !this.show;
-      this.showColor = this.showColor?!this.showColor:this.showColor;
-      this.showSize = this.showSize?!this.showSize:this.showSize;
-      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
-      this.showSort = this.showSort?!this.showSort:this.showSort;
+      this.showColor = this.showColor ? !this.showColor : this.showColor;
+      this.showSize = this.showSize ? !this.showSize : this.showSize;
+      this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
+      this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
     // show color dropdown
     showColorDropdown() {
       this.showColor = !this.showColor;
-      this.show = this.show?!this.show:this.show;
-      this.showSize = this.showSize?!this.showSize:this.showSize;
-      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
-      this.showSort = this.showSort?!this.showSort:this.showSort;
+      this.show = this.show ? !this.show : this.show;
+      this.showSize = this.showSize ? !this.showSize : this.showSize;
+      this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
+      this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
     // show size dropdown
     showSizeDropdown() {
       this.showSize = !this.showSize;
-      this.show = this.show?!this.show:this.show;
-      this.showColor = this.showColor?!this.showColor:this.showColor;
-      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
-      this.showSort = this.showSort?!this.showSort:this.showSort;
+      this.show = this.show ? !this.show : this.show;
+      this.showColor = this.showColor ? !this.showColor : this.showColor;
+      this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
+      this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
     // show material dropdown
     showMaterialDropdown() {
       this.showMaterial = !this.showMaterial;
-      this.show = this.show?!this.show:this.show;
-      this.showColor = this.showColor?!this.showColor:this.showColor;
-      this.showSize = this.showSize?!this.showSize:this.showSize;
-      this.showSort = this.showSort?!this.showSort:this.showSort;
+      this.show = this.show ? !this.show : this.show;
+      this.showColor = this.showColor ? !this.showColor : this.showColor;
+      this.showSize = this.showSize ? !this.showSize : this.showSize;
+      this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
     // show material dropdown
     showSortDropdown() {
       this.showSort = !this.showSort;
-      this.show = this.show?!this.show:this.show;
-      this.showColor = this.showColor?!this.showColor:this.showColor;
-      this.showSize = this.showSize?!this.showSize:this.showSize;
-      this.showMaterial = this.showMaterial?!this.showMaterial:this.showMaterial;
+      this.show = this.show ? !this.show : this.show;
+      this.showColor = this.showColor ? !this.showColor : this.showColor;
+      this.showSize = this.showSize ? !this.showSize : this.showSize;
+      this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
     },
     // on selecte Category
     onCheck(event) {
       if (this.selected.includes(event.target.value)) {
-        this.selected = this.selected.filter(function(geeks) {
+        this.selected = this.selected.filter(function (geeks) {
           return geeks != event.target.value;
         });
       } else {
         this.selected.push(event.target.value);
       }
-      this.filterProduct();
     },
     // on selecte Color
     onCheckColor(event) {
       if (this.selectedColor.includes(event.target.value)) {
-        this.selectedColor = this.selectedColor.filter(function(geeks) {
+        this.selectedColor = this.selectedColor.filter(function (geeks) {
           return geeks != event.target.value;
         });
       } else {
         this.selectedColor.push(event.target.value);
       }
-      this.filterProductByColor();
     },
     // on selecte Size
     onCheckSize(event) {
       if (this.selectedSize.includes(event.target.value)) {
-        this.selectedSize = this.selectedSize.filter(function(geeks) {
+        this.selectedSize = this.selectedSize.filter(function (geeks) {
           return geeks != event.target.value;
         });
       } else {
         this.selectedSize.push(event.target.value);
       }
-      this.filterProductBySize();
     },
     // on selecte Material
     onCheckMaterial(event) {
       if (this.selectedMaterial.includes(event.target.value)) {
-        this.selectedMaterial = this.selectedMaterial.filter(function(geeks) {
+        this.selectedMaterial = this.selectedMaterial.filter(function (geeks) {
           return geeks != event.target.value;
         });
       } else {
         this.selectedMaterial.push(event.target.value);
       }
+    },
+
+    onCheckSort(event) {
+      if (this.selectedSort.includes(event.target.value)) {
+        this.selectedSort = this.selectedSort.filter(function (geeks) {
+          return geeks != event.target.value;
+        });
+      } else {
+        this.selectedSort.push(event.target.value);
+      }
       this.filterProductByMaterial();
     },
 
-    onCheckSort(event){
-        if (this.selectedSort.includes(event.target.value)) {
-            this.selectedSort = this.selectedSort.filter(function(geeks) {
-                return geeks != event.target.value;
-            });
-        } else {
-            this.selectedSort.push(event.target.value);
-        }
-        this.filterProductByMaterial();
-    },
-
     // filter based on category selection
-    filterProduct: function() {
+    filterProduct: function () {
       let array = [];
       if (this.selected.length > 0) {
         // Get Category product after multi select option in dropdown
@@ -968,31 +570,13 @@ export default {
             array = filter;
           }
         });
-
         this.filterByCategory = array;
-
         //array of color Filter with other selected option
-        if (this.filterByColor.length > 0) {
-          array = this.filterArrayByColor(array);
-        }
-        if (this.filterBySize.length > 0) {
-          array = this.filterArrayBySize(array);
-        }
-        if (this.filterByMaterial.length > 0) {
-          array = this.filterArrayByMaterial(array);
-        }
-        this.customerlist = this.array_chunk(array, 20);
+        array = this.getUniqueRecord(array, 'category');
+        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByCategory = [];
-        if (this.selectedColor.length > 0) {
-          this.filterProductByColor();
-        } else if (this.selectedSize.length > 0) {
-          this.filterProductBySize();
-        } else if (this.selectedMaterial.length > 0) {
-          this.filterByMaterial();
-        } else {
-          this.customerlist = this.array_chunk(products, 20);
-        }
+        this.clearAllOption();
       }
       this.page_index = 0;
     },
@@ -1013,31 +597,13 @@ export default {
             array = filter;
           }
         });
-
         this.filterByColor = array;
-
         //array of color Filter with other selected option
-        if (this.filterByCategory.length > 0) {
-          array = this.filterArrayByCategory(array);
-        }
-        if (this.filterBySize.length > 0) {
-          array = this.filterArrayBySize(array);
-        }
-        if (this.filterByMaterial.length > 0) {
-          array = this.filterArrayByMaterial(array);
-        }
-        this.customerlist = this.array_chunk(array, 20);
+        array = this.getUniqueRecord(array, 'color');
+        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByColor = [];
-        if (this.selected.length > 0) {
-          this.filterProduct();
-        } else if (this.selectedSize.length > 0) {
-          this.filterProductBySize();
-        } else if (this.selectedMaterial.length > 0) {
-          this.filterByMaterial();
-        } else {
-          this.customerlist = this.array_chunk(products, 20);
-        }
+        this.clearAllOption();
       }
       this.page_index = 0;
     },
@@ -1062,27 +628,11 @@ export default {
         this.filterBySize = array;
 
         //array of size Filter with other selected option
-        if (this.filterByCategory.length > 0) {
-          array = this.filterArrayByCategory(array);
-        }
-        if (this.filterByColor.length > 0) {
-          array = this.filterArrayByColor(array);
-        }
-        if (this.filterByMaterial.length > 0) {
-          array = this.filterArrayByMaterial(array);
-        }
-        this.customerlist = this.array_chunk(array, 20);
+        array = this.getUniqueRecord(array, 'size');
+        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterBySize = [];
-        if (this.selected.length > 0) {
-          this.filterProduct();
-        } else if (this.selectedColor.length > 0) {
-          this.filterProductByColor();
-        } else if (this.selectedMaterial.length > 0) {
-          this.filterByMaterial();
-        } else {
-          this.customerlist = this.array_chunk(products, 20);
-        }
+        this.clearAllOption();
       }
       this.page_index = 0;
     },
@@ -1103,67 +653,56 @@ export default {
             array = filter;
           }
         });
-
         this.filterByMaterial = array;
-
         //array of material Filter with other selected option
-        if (this.filterByCategory.length > 0) {
-          array = this.filterArrayByCategory(array);
-        }
-        if (this.filterByColor.length > 0) {
-          array = this.filterArrayByColor(array);
-        }
-        if (this.filterBySize.length > 0) {
-          array = this.filterArrayBySize(array);
-        }
-        this.customerlist = this.array_chunk(array, 20);
+        array = this.getUniqueRecord(array, 'material');
+        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByMaterial = [];
-        if (this.selected.length > 0) {
-          this.filterProduct();
-        } else if (this.selectedColor.length > 0) {
-          this.filterProductByColor();
-        } else if (this.selectedSize.length > 0) {
-          this.filterProductBySize();
-        } else {
-          this.customerlist = this.array_chunk(products, 20);
-        }
+        this.clearAllOption();
       }
       this.page_index = 0;
     },
 
-    filterArrayByCategory(array) {
-      let category = this.filterByCategory;
-      return category.filter((el) => {
+    getUniqueRecord(array, type) {
+      if (this.filterByCategory.length > 0 && type != 'category') {
+        array = this.filterArrayToUniqueRecord(array, this.filterByCategory);
+      }
+      if (this.filterByColor.length > 0 && type != 'color') {
+        array = this.filterArrayToUniqueRecord(array, this.filterByColor);
+      }
+      if (this.filterBySize.length > 0 && type != 'size') {
+        array = this.filterArrayToUniqueRecord(array, this.filterBySize);
+      }
+      if (this.filterByMaterial.length > 0 && type != 'material') {
+        array = this.filterArrayToUniqueRecord(array, this.filterByMaterial);
+      }
+      this.customerlist = this.array_chunk(array, 20);
+      return array;
+    },
+
+    filterArrayToUniqueRecord(array, filterWithArray) {
+      // let category = this.filterByCategory;
+      return filterWithArray.filter((el) => {
         return array.some((f) => {
           return f.id === el.id;
         });
       });
     },
-    filterArrayByColor(array) {
-      let color = this.filterByColor;
-      return color.filter((el) => {
-        return array.some((f) => {
-          return f.id === el.id;
-        });
-      });
-    },
-    filterArrayBySize(array) {
-      let size = this.filterBySize;
-      return size.filter((el) => {
-        return array.some((f) => {
-          return f.id === el.id;
-        });
-      });
-    },
-    filterArrayByMaterial(array) {
-      let material = this.filterByMaterial;
-      return material.filter((el) => {
-        return array.some((f) => {
-          return f.id === el.id;
-        });
-      });
-    },
+    clearAllOption: function () {
+      if (this.selected.length > 0) {
+        this.filterProduct();
+      } else if (this.selectedColor.length > 0) {
+        this.filterProductByColor();
+      } else if (this.selectedSize.length > 0) {
+        this.filterProductBySize();
+      } else if (this.selectedMaterial.length > 0) {
+        this.filterProductBySize();
+      } else {
+        this.customerlist = this.array_chunk(products, 20);
+      }
+    }
+
   },
 };
 </script>
