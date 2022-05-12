@@ -205,14 +205,14 @@
               <div class="multiselect" v-bind:class="{ active: showSort }">
                 <ul>
                   <li v-for="(option) in ddTestSort" :key="option.id">
-                    <input class="multiselectOption" type="checkbox" :id="option.id" :value="option.value"
+                    <input class="multiselectOption" type="checkbox" name="sort" :id="option.id" :value="option.value"
                       @change="onCheckSort($event)">
                     <label class="optionLabel" :for="option.id">{{ option.text }}</label>
                   </li>
 
                   <li>
                     <div class="btn_wrapper">
-                      <button class="filterBtn modifier">Apply</button>
+                      <button class="filterBtn modifier" @click="sortProduct">Apply</button>
                       <button class="filterBtn">Clear</button>
                     </div>
                   </li>
@@ -318,7 +318,7 @@ export default {
         },
         {
           id: "sort3",
-          value: "HighTOLow",
+          value: "HighToLow",
           text: "Price: High to Low"
         },
         {
@@ -460,7 +460,9 @@ export default {
     },
     paginate: function (index) {
       this.page_index = index;
+      this.sortProduct();
       window.scrollTo({ top: 0, behavior: "smooth" });
+      
     },
     // show category dropdown
     showDropdown() {
@@ -544,14 +546,30 @@ export default {
     },
 
     onCheckSort(event) {
-      if (this.selectedSort.includes(event.target.value)) {
-        this.selectedSort = this.selectedSort.filter(function (geeks) {
-          return geeks != event.target.value;
-        });
-      } else {
-        this.selectedSort.push(event.target.value);
+      var markedCheckbox = document.getElementsByName('sort');
+      for (var checkbox of markedCheckbox) {
+        if (checkbox.checked)
+          checkbox.checked = false;
       }
-      this.filterProductByMaterial();
+      this.selectedSort=[]
+      markedCheckbox = document.getElementById(event.target.id);
+      markedCheckbox.checked=true;
+      this.selectedSort.push(event.target.value);
+    },
+    sortProduct:function(){
+      if (this.selectedSort.length > 0) {
+          let obj=this.selectedSort[0];
+          this.customerlist[this.page_index].sort(function(a, b){
+            console.log(a.variants[0]);
+            if(obj=='LowToHigh'){
+              return a.variants[0].price - b.variants[0].price
+            }
+            else if(obj=='HighToLow'){
+              return b.variants[0].price - a.variants[0].price
+            }
+          });
+        
+      }
     },
 
     // filter based on category selection
@@ -573,7 +591,6 @@ export default {
         this.filterByCategory = array;
         //array of color Filter with other selected option
         array = this.getUniqueRecord(array, 'category');
-        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByCategory = [];
         this.clearAllOption();
@@ -600,7 +617,6 @@ export default {
         this.filterByColor = array;
         //array of color Filter with other selected option
         array = this.getUniqueRecord(array, 'color');
-        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByColor = [];
         this.clearAllOption();
@@ -629,7 +645,6 @@ export default {
 
         //array of size Filter with other selected option
         array = this.getUniqueRecord(array, 'size');
-        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterBySize = [];
         this.clearAllOption();
@@ -656,7 +671,6 @@ export default {
         this.filterByMaterial = array;
         //array of material Filter with other selected option
         array = this.getUniqueRecord(array, 'material');
-        // this.customerlist = this.array_chunk(array, 20);
       } else {
         this.filterByMaterial = [];
         this.clearAllOption();
@@ -678,6 +692,7 @@ export default {
         array = this.filterArrayToUniqueRecord(array, this.filterByMaterial);
       }
       this.customerlist = this.array_chunk(array, 20);
+      this.sortProduct();
       return array;
     },
 
