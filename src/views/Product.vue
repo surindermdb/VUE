@@ -228,7 +228,10 @@
       <div class="grid_inner" v-bind:class="{ grid_inner_max: gridMax, grid_inner_min: gridMin }">
         <div class="centeralign addmargin" v-for="product in customerlist[page_index]" :key="product.id">
           <div class="card" v-on:click="setSelectedCustomer(product.title)">
-            <img :src="product.images[0].src" />
+            <img :src="product.images[0].src" v-on:mouseover="mouseover($event,product.images[product.images.length-1].src)"
+            v-on:mouseleave="mouseleave($event,product.images[0].src)" />
+            <!-- <img :src="product.images[0].src" /> -->
+            <!-- <vue-hover-slider :slides="slides[page_index]" /> -->
             <h5 class="card-title">{{ product.title }}</h5>
             <h5 class="card-title bold">${{ Math.floor(product.variants[0].price) }}</h5>
           </div>
@@ -331,16 +334,30 @@ export default {
           value: "Discount",
           text: "Percent Discount"
         }
-      ]
+      ],
+      // slides:this.getProductSlides()
     };
   },
   methods: {
+    /* change images on hover */ 
+    mouseover: function(event,imgsrc){
+      event.target.src=imgsrc;
+    },    
+    mouseleave: function(event,imgsrc){
+      event.target.src=imgsrc;
+    },
+    /* end change images on hover */ 
+
+    /* Clear all filter */ 
     clearAllFilter: function () {
       let arrayName = ['category', 'color', 'size', 'material'];
       arrayName.map(item => {
         this.clearCheckBoxs(item);
       })
     },
+    /* End Clear all filter */ 
+    
+    /* start unchecked checkbox when click clear button in dropdown */ 
     clearCheckBoxs: function (name) {
       var markedCheckbox = document.getElementsByName(name);
       for (var checkbox of markedCheckbox) {
@@ -365,6 +382,9 @@ export default {
       }
       this.clearAllOption();
     },
+    /* end unchecked checkbox when click clear button in dropdown */ 
+
+    /* change grid column */ 
     sliderChange: function (event) {
       if (event.target.value == 2) {
         this.gridMin = true;
@@ -379,7 +399,10 @@ export default {
         this.gridMax = false;
       }
     },
-    // Fill category dropdown from products data
+    /* end change grid column */ 
+
+    /* Fill category dropdown from products data */ 
+    
     getCategoryDropDownList: function () {
       let array = [];
       products.map((item) => {
@@ -395,7 +418,10 @@ export default {
       });
       return array;
     },
-    // Fill color dropdown from products data
+    /* End Fill category dropdown from products data */ 
+
+    /* Fill color dropdown from products data */ 
+    
     getColorDropDownList: function () {
       let array = [];
       products.map((item) => {
@@ -413,7 +439,10 @@ export default {
       });
       return array;
     },
-    // Fill size dropdown from products data
+
+    /* End Fill color dropdown from products data */ 
+    
+    /* Fill size dropdown from products data */ 
     getSizeDropDownList: function () {
       let array = [];
       products.map((item) => {
@@ -431,7 +460,9 @@ export default {
       });
       return array;
     },
-    // Fill material dropdown from products data
+    /* End Fill size dropdown from products data */ 
+    
+    /* Fill material dropdown from products data */ 
     getMaterialDropDownList: function () {
       let array = [];
       products.map((item) => {
@@ -449,6 +480,9 @@ export default {
       });
       return array;
     },
+    /* End Fill material dropdown from products data */
+
+    /* this function is used to set 20 record on single page */
     array_chunk: function (array, size) {
       const chunked_arr = [];
       let index = 0;
@@ -456,56 +490,65 @@ export default {
         chunked_arr.push(array.slice(index, size + index));
         index += size;
       }
+
       return chunked_arr;
     },
+
+    /* On click page number change page */
     paginate: function (index) {
       this.page_index = index;
       this.sortProduct();
       window.scrollTo({ top: 0, behavior: "smooth" });
       
     },
-    // show category dropdown
-    showDropdown() {
+
+    /* show category dropdown */
+    showDropdown:function() {
       this.show = !this.show;
       this.showColor = this.showColor ? !this.showColor : this.showColor;
       this.showSize = this.showSize ? !this.showSize : this.showSize;
       this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
       this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
-    // show color dropdown
-    showColorDropdown() {
+    
+    /* show color dropdown */
+    showColorDropdown:function() {
       this.showColor = !this.showColor;
       this.show = this.show ? !this.show : this.show;
       this.showSize = this.showSize ? !this.showSize : this.showSize;
       this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
       this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
-    // show size dropdown
-    showSizeDropdown() {
+    
+    /* show size dropdown */
+    showSizeDropdown:function() {
       this.showSize = !this.showSize;
       this.show = this.show ? !this.show : this.show;
       this.showColor = this.showColor ? !this.showColor : this.showColor;
       this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
       this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
-    // show material dropdown
-    showMaterialDropdown() {
+    
+    /* show material dropdown */
+    showMaterialDropdown:function() {
       this.showMaterial = !this.showMaterial;
       this.show = this.show ? !this.show : this.show;
       this.showColor = this.showColor ? !this.showColor : this.showColor;
       this.showSize = this.showSize ? !this.showSize : this.showSize;
       this.showSort = this.showSort ? !this.showSort : this.showSort;
     },
-    // show material dropdown
-    showSortDropdown() {
+    
+    /* show sort dropdown */
+    showSortDropdown:function() {
       this.showSort = !this.showSort;
       this.show = this.show ? !this.show : this.show;
       this.showColor = this.showColor ? !this.showColor : this.showColor;
       this.showSize = this.showSize ? !this.showSize : this.showSize;
       this.showMaterial = this.showMaterial ? !this.showMaterial : this.showMaterial;
     },
-    // on selecte Category
-    onCheck(event) {
+
+    /* set selected category checkbox value */
+    onCheck:function(event) {
       if (this.selected.includes(event.target.value)) {
         this.selected = this.selected.filter(function (geeks) {
           return geeks != event.target.value;
@@ -514,8 +557,9 @@ export default {
         this.selected.push(event.target.value);
       }
     },
-    // on selecte Color
-    onCheckColor(event) {
+    
+    /* set selected color checkbox value */
+    onCheckColor:function(event) {
       if (this.selectedColor.includes(event.target.value)) {
         this.selectedColor = this.selectedColor.filter(function (geeks) {
           return geeks != event.target.value;
@@ -524,8 +568,9 @@ export default {
         this.selectedColor.push(event.target.value);
       }
     },
-    // on selecte Size
-    onCheckSize(event) {
+
+    /* set selected size checkbox value */
+    onCheckSize:function(event) {
       if (this.selectedSize.includes(event.target.value)) {
         this.selectedSize = this.selectedSize.filter(function (geeks) {
           return geeks != event.target.value;
@@ -534,8 +579,9 @@ export default {
         this.selectedSize.push(event.target.value);
       }
     },
-    // on selecte Material
-    onCheckMaterial(event) {
+    
+    /* set selected material checkbox value */
+    onCheckMaterial:function(event) {
       if (this.selectedMaterial.includes(event.target.value)) {
         this.selectedMaterial = this.selectedMaterial.filter(function (geeks) {
           return geeks != event.target.value;
@@ -545,7 +591,8 @@ export default {
       }
     },
 
-    onCheckSort(event) {
+    /* set selected sort checkbox value */
+    onCheckSort:function(event) {
       var markedCheckbox = document.getElementsByName('sort');
       for (var checkbox of markedCheckbox) {
         if (checkbox.checked)
@@ -556,6 +603,8 @@ export default {
       markedCheckbox.checked=true;
       this.selectedSort.push(event.target.value);
     },
+
+    /* sort product based on price low to high and vice-verse */
     sortProduct:function(){
       if (this.selectedSort.length > 0) {
           let obj=this.selectedSort[0];
@@ -572,7 +621,7 @@ export default {
       }
     },
 
-    // filter based on category selection
+    /* set product in array based on selected category option */
     filterProduct: function () {
       let array = [];
       if (this.selected.length > 0) {
@@ -589,7 +638,6 @@ export default {
           }
         });
         this.filterByCategory = array;
-        //array of color Filter with other selected option
         array = this.getUniqueRecord(array, 'category');
       } else {
         this.filterByCategory = [];
@@ -598,8 +646,8 @@ export default {
       this.page_index = 0;
     },
 
-    // filter based on color selection
-    filterProductByColor() {
+    /* set product in array based on selected color option */
+    filterProductByColor:function() {
       let array = [];
       if (this.selectedColor.length > 0) {
         // Get Color product after multi select option in dropdown
@@ -615,7 +663,6 @@ export default {
           }
         });
         this.filterByColor = array;
-        //array of color Filter with other selected option
         array = this.getUniqueRecord(array, 'color');
       } else {
         this.filterByColor = [];
@@ -624,8 +671,8 @@ export default {
       this.page_index = 0;
     },
 
-    // filter based on size selection
-    filterProductBySize() {
+    /* set product in array based on selected size option */
+    filterProductBySize:function() {
       let array = [];
       if (this.selectedSize.length > 0) {
         // Get Size product after multi select option in dropdown
@@ -640,10 +687,7 @@ export default {
             array = filter;
           }
         });
-
         this.filterBySize = array;
-
-        //array of size Filter with other selected option
         array = this.getUniqueRecord(array, 'size');
       } else {
         this.filterBySize = [];
@@ -652,8 +696,8 @@ export default {
       this.page_index = 0;
     },
 
-    // filter based on Material selection
-    filterProductByMaterial() {
+    /* set product in array based on selected material option */
+    filterProductByMaterial:function() {
       let array = [];
       if (this.selectedMaterial.length > 0) {
         // Get Material product after multi select
@@ -669,7 +713,6 @@ export default {
           }
         });
         this.filterByMaterial = array;
-        //array of material Filter with other selected option
         array = this.getUniqueRecord(array, 'material');
       } else {
         this.filterByMaterial = [];
@@ -678,7 +721,8 @@ export default {
       this.page_index = 0;
     },
 
-    getUniqueRecord(array, type) {
+    /*satrt filter and unique order after apply filter option */
+    getUniqueRecord:function(array, type) {
       if (this.filterByCategory.length > 0 && type != 'category') {
         array = this.filterArrayToUniqueRecord(array, this.filterByCategory);
       }
@@ -696,14 +740,16 @@ export default {
       return array;
     },
 
-    filterArrayToUniqueRecord(array, filterWithArray) {
-      // let category = this.filterByCategory;
+    filterArrayToUniqueRecord: function(array, filterWithArray) {
       return filterWithArray.filter((el) => {
         return array.some((f) => {
           return f.id === el.id;
         });
       });
     },
+    /*end filter and unique order after apply filter option */
+
+    /* clear option that selected in drop down under particular option */
     clearAllOption: function () {
       if (this.selected.length > 0) {
         this.filterProduct();
@@ -716,7 +762,7 @@ export default {
       } else {
         this.customerlist = this.array_chunk(products, 20);
       }
-    }
+    },
 
   },
 };
